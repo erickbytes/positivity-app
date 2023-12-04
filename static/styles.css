@@ -1,0 +1,17 @@
+body {
+  padding: 25px;
+  background-color: #465957;
+  color: #48D1CC;
+  font-size: 25px;
+  font-family: sans-serif;
+}
+a {
+  color: #6495ED;
+}
+
+#outer
+{
+    width:100%;
+    text-align: left;
+    display: inline-block;
+}
