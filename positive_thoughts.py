@@ -20,6 +20,7 @@ app = Flask(__name__)
 
 @app.route("/favicon.ico")
 def favicon():
+    """Adding site favicon."""
     try:
         return send_from_directory(
             os.path.join(app.root_path, "static"),
@@ -35,28 +36,23 @@ def favicon():
 
 @app.route("/")
 def positivipy():
-    """positivipy does two things:
-    1) generate quote from a Markov chain
-    2) makes one daily automatic post to this Facebook page: https://www.facebook.com/positivedailythought
-    """
+    """Returns an HTML page with positively minded paragraph of text."""
+    # Include structured data for search engines.
+    structured_data = """<script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : ["SoftwareApplication","WebApplication"],
+      "name" : "positivipy",
+      "applicationCategory":"DeveloperApplication",
+      "operatingSystem":"All"
+    }
+    </script>"""
     try:
-        """Languages Codes
-        The language codes in the table below are supported for the field Customer.language.
-        """
-        structured_data = """<script type="application/ld+json">
-        {
-          "@context" : "http://schema.org",
-          "@type" : ["SoftwareApplication","WebApplication"],
-          "name" : "positivipy",
-          "applicationCategory":"DeveloperApplication",
-          "operatingSystem":"All"
-        }
-        </script>"""
         codes, language_name, example_code = status_codes()
         codes = codes.to_html(border=0, justify="left")
         # recent_upvotes = get_votes_from_db()
         html_page = f"""<!DOCTYPE html><html lang="en"><head>{structured_data}<meta name="positivipy API" description="read computer generated positive quotes and translate them into 50+ languages"><link rel="shortcut icon" type="image/x-icon" href="static/favicon.ico">
-                        <link rel='stylesheet' href="/static/styles/stupid.css">
+                        <link rel='stylesheet' href="/static/styles/styles.css">
                         <Title>positivipy</Title></head>
                         <body><h2><a href="https://positivethoughts.pythonanywhere.com" style="text-decoration:none">+</a> positivipy</h2>
                         <p>A Markov chain text model of positive thinkers, artists and creators</p><br>
@@ -143,7 +139,6 @@ def status_codes():
 def get_quote():
     """Returns str, positive quote text.
     - Use a Markov chain on text of 771 PTD Facebook posts to generate text, stored in a .csv.
-    - Track photo ids in mysql db, "Photos" table.
     - Use fuzzywuzzy to speculate the source authors based on Levenshtein distance.
     """
     # Build a markov chain model.
@@ -201,7 +196,7 @@ def get_quote():
     html_page = f"""<!DOCTYPE html><html lang="en"><head>
                     <meta name="positivipy text generator" description="read computer generated positive quotes and translate them into 50+ languages">
                     <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico">
-                    <link rel="stylesheet" href="/static/styles/stupid.css">
+                    <link rel="stylesheet" href="/static/styles/styles.css">
                     <Title>positivipy</Title></head>
                     <body><h2><a href="https://positivethoughts.pythonanywhere.com" style="text-decoration:none">+</a> positivipy</h2>
                     <p>A Markov chain text model of positive thinkers, artists and creators</p>
