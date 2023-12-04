@@ -13,7 +13,6 @@ from flask import Flask, request, url_for, redirect, send_from_directory
 from fuzzywuzzy import fuzz
 from textblob import TextBlob
 
-# alt + 0 to collapse functions
 logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 app = Flask(__name__)
 
@@ -29,9 +28,6 @@ def favicon():
         )
     except:
         logging.exception("Failed to link Favicon.")
-
-
-"""Website Pages"""
 
 
 @app.route("/")
@@ -355,8 +351,7 @@ def add_vote_to_db():
 
 
 def get_votes_from_db():
-    """fetch last token retrieved from db
-    returns token --> str: message to indicate if a new fb post should be made"""
+    """Get the number of upvotes or downvotes for a quote from the DB."""
     try:
         conn = mysql.connector.connect(
             host="user.mysql.pythonanywhere-services.com",
